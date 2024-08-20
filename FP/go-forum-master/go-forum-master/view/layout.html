@@ -1,0 +1,32 @@
+{{ define "layout" }}
+
+<!doctype html>
+<html lang="zh-Hans-CN">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>go-forum</title>
+
+  <style>
+    body {
+      text-align: center;
+    }
+  </style>
+
+</head>
+
+<body>
+
+<h1>go-forum</h1>
+<hr>
+
+{{ template "content" . }}
+
+</body>
+
+</html>
+
+{{ end }}

@@ -1,0 +1,17 @@
+{{ define "content" }}
+
+  <h2>主页</h2>
+
+  <a href="/search">搜索</a>
+  <a href="/logout_action">注销</a>
+  <a href="/set_admin">设置管理员</a>
+  <a href="/threads/create">创建主题</a>
+  <hr>
+
+  <h3>主题（{{ len . }}）：</h3>
+  {{ range . }}
+      <h4>主题名字：{{ .ThreadSubject }}</h4>
+      <p>由{{ .Username }}于{{ .ThreadCreatedAt }}建立，共有{{ .PostCount }}个帖子。</p>
+      <a href="/threads/read?uuid={{ .ThreadUUID }}">阅读主题</a>
+  {{end}}
+{{ end }}

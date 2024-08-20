@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Forum</title>
+</head>
+<body>
+    <h1>Forum Posts</h1>
+
+    {{if .User}}
+        <p>Welcome, {{.User.Username}}!</p>
+        <form method="GET" action="/filter">
+            <h2>Filter Posts</h2>
+            <label for="categories">Categories:</label>
+            <input type="text" name="categories" id="categories">
+            <br>
+            <label for="date_from">From:</label>
+            <input type="date" name="date_from" id="date_from">
+            <br>
+            <label for="date_to">To:</label>
+            <input type="date" name="date_to" id="date_to">
+            <br>
+            <label for="liked">Liked Posts Only:</label>
+            <input type="checkbox" name="liked" id="liked">
+            <br>
+            <button type="submit">Filter</button>
+        </form>
+    {{else}}
+        <p><a href="/login">Login</a> to like or dislike posts and comments.</p>
+    {{end}}
+
+    <h2>Posts</h2>
+    <ul>
+        {{range .Posts}}
+            <li>
+                <h3>{{.Title}}</h3>
+                <p>{{.Content}}</p>
+                <p>Posted by {{.Username}} on {{.CreatedAt}}</p>
+                <p>Likes: {{.Likes}} | Dislikes: {{.Dislikes}}</p>
+                {{if .User}}
+                    <form method="POST" action="/like">
+                        <input type="hidden" name="post_id" value="{{.ID}}">
+                        <button type="submit">Like</button>
+                    </form>
+                    <form method="POST" action="/dislike">
+                        <input type="hidden" name="post_id" value="{{.ID}}">
+                        <button type="submit">Dislike</button>
+                    </form>
+                {{end}}
+                <h4>Comments</h4>
+                <ul>
+                    {{range .Comments}}
+                        <li>
+                            <p>{{.Content}}</p>
+                            <p>Commented by {{.Username}} on {{.CreatedAt}}</p>
+                            <p>Likes: {{.Likes}} | Dislikes: {{.Dislikes}}</p>
+                            {{if .User}}
+                                <form method="POST" action="/like_comment">
+                                    <input type="hidden" name="comment_id" value="{{.ID}}">
+                                    <button type="submit">Like Comment</button>
+                                </form>
+                                <form method="POST" action="/dislike_comment">
+                                    <input type="hidden" name="comment_id" value="{{.ID}}">
+                                    <button type="submit">Dislike Comment</button>
+                                </form>
+                            {{end}}
+                        </li>
+                    {{end}}
+                </ul>
+            </li>
+        {{end}}
+    </ul>
+</body>
+</html>
